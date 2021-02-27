@@ -2,7 +2,6 @@ let mapleader = " "
 syntax on
 set ruler
 set formatoptions-=cro                  " Stop newline continution of comments
-set mouse=a
 set nohlsearch
 set hidden
 set noerrorbells

@@ -25,9 +25,11 @@ call plug#begin('~/.vim/plugged')
  Plug 'AndrewRadev/tagalong.vim'
  Plug 'norcalli/nvim-colorizer.lua'
  Plug 'kyazdani42/nvim-web-devicons'
- Plug 'romgrk/barbar.nvim'
+ " Plug 'romgrk/barbar.nvim'
  Plug 'mhinz/vim-startify'
- Plug 'ntpeters/vim-better-whitespace'
+ " Plug 'ntpeters/vim-better-whitespace'
+ Plug 'MattesGroeger/vim-bookmarks'
  Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+ Plug 'bagrat/vim-buffet'
 call plug#end()
 

@@ -1,4 +1,5 @@
 nnoremap <C-p> :GFiles<CR>
+nnoremap Q <Nop>
 nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
 nnoremap <leader>phw :h <C-R>=expand("<cword>")<CR><CR>
 nnoremap <leader>u :UndotreeShow<CR>
@@ -14,6 +15,7 @@ nnoremap gO O<Esc>j
 nnoremap <leader>gc :GCheckout<CR>
 nnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
 nnoremap <expr> j (v:count == 0 ? 'gj' : 'j')
+"Git
 nmap <leader>g; :diffget //3<CR>
 nmap <leader>gj :diffget //2<CR>
 nmap <D-j> <C-d>
