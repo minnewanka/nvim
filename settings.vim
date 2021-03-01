@@ -28,6 +28,5 @@ set updatetime=50
 set shortmess+=c
 set splitbelow
 set splitright
-set clipboard=unnamedplus
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 

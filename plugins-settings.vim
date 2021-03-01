@@ -63,9 +63,6 @@ map <Leader>J <Plug>(easymotion-eol-j)
 map <Leader>K <Plug>(easymotion-eol-k)
 
 "Airline
-let g:airline_section_b=''
-let g:airline_section_Y=''
-let g:airline_section_z=''
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 
 "Maximazer
