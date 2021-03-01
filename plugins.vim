@@ -33,5 +33,6 @@ call plug#begin('~/.vim/plugged')
  Plug 'MattesGroeger/vim-bookmarks'
  Plug 'mg979/vim-visual-multi', {'branch': 'master'}
  Plug 'bagrat/vim-buffet'
+ Plug '907th/vim-auto-save'
 call plug#end()
 

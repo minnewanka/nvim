@@ -69,13 +69,6 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 nnoremap <C-W>m :MaximizerToggle<CR>
 nnoremap <leader>d<space> :call vimspector#Continue()<CR>
 
-"Barbar
-" let bufferline = get(g:, 'bufferline', {})
-" let bufferline.auto_hide = v:true
-" let bufferline.closable = v:true
-" nnoremap <silent> <leader>b :BufferPick<CR>
-" nnoremap <silent> <leader>tc :BufferClose<CR>
-" nnoremap <silent> <leader>to :BufferCloseAllButCurrent<CR>
 
 "Closetab
 let g:closetag_filenames = '*.html,*.js,*.tsx,*.jsx'
@@ -128,4 +121,6 @@ nmap <leader>2 <Plug>BuffetSwitch(2)
 nmap <leader>3 <Plug>BuffetSwitch(3)
 nmap <leader>4 <Plug>BuffetSwitch(4)
 nmap <leader>5 <Plug>BuffetSwitch(5)
-
+"Auto save
+let g:auto_save = 1
+let g:auto_save_silent = 1

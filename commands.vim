@@ -17,10 +17,10 @@ fun! ToggleGStatus()
 endfun
 command! ToggleGStatus :call ToggleGStatus()
 
-augroup focus
-    autocmd!
-    autocmd FocusLost,BufLeave * silent! wa
-augroup END
+" augroup focus
+"     autocmd!
+"     autocmd FocusLost,BufLeave * silent! wa
+" augroup END
 
 
 inoremap <silent><expr> <TAB>
