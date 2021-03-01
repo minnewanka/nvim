@@ -44,3 +44,8 @@ nnoremap <silent> <A-j>    :resize -2<CR>
 nnoremap <silent> <A-k>  :resize +2<CR>
 nnoremap <silent> <A-h>  :vertical resize -2<CR>
 nnoremap <silent> <A-l> :vertical resize +2<CR>
+
+"tab
+nnoremap <tab> gt
+nnoremap <C-t>n :tabnew %<CR>
+nnoremap <C-t>o :tabonly<CR>
