@@ -116,8 +116,8 @@ nmap <leader>db <Plug>VimspectorToggleBreakpoint
 
 
 "Vim Buffet
-noremap L :bn<CR>
-noremap H  :bp<CR>
+noremap <Left>  :bp<CR>
+noremap <Right> :bn<CR>
 noremap <leader>bb :Bw<CR>
 noremap <leader>bo :Bonly<CR>
 let g:buffet_tab_icon = "\uf00a"
