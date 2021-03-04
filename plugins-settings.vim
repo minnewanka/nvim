@@ -44,6 +44,7 @@ nmap  ghp <Plug>(GitGutterPreviewHunk)
 nmap  ghu <Plug>(GitGutterUndoHunk)
 nmap  ghs <Plug>(GitGutterStageHunk)
 xmap  ghs <Plug>(GitGutterStageHunk)
+nmap ghp <Plug>(GitGutterPreviewHunk)
 
 "Easy motion
 let g:EasyMotion_smartcase = 1
