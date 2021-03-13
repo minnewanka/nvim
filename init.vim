@@ -23,7 +23,8 @@ Plug 'kana/vim-textobj-line'
 Plug 'mattn/emmet-vim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'puremourning/vimspector'
-Plug 'szw/vim-maximizer'
+ Plug 'szw/vim-maximizer'
+Plug 'dhruvasagar/vim-zoom'
 Plug 'jiangmiao/auto-pairs'
 Plug 'alvan/vim-closetag'
 Plug 'AndrewRadev/tagalong.vim'
@@ -61,18 +62,18 @@ set undodir=~/.vim/undodir
 set undofile
 set incsearch
 set termguicolors
-" set colorcolumn=100
 set noshowmode
 set updatetime=50
 set shortmess+=c
 set splitbelow
 set splitright
-" highlight ColorColumn ctermbg=0 guibg=lightgrey
 highlight! CursorLine ctermbg=0 guibg=grey
 
 
 """"""""""" BASIC MAPPING """"""""""
 
+nnoremap <leader>q :q<cr>
+nnoremap <leader>z :wq<cr>
 nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
 nnoremap <leader>u :UndotreeShow<CR>
 nnoremap Q <Nop>
@@ -89,8 +90,6 @@ nmap <leader>gj :diffget //2<CR>
 imap jk <Esc>
 imap kj <Esc>
 imap jj <Esc>
-nnoremap <leader>q :q<cr>
-nnoremap <leader>z :wq<cr>
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
@@ -274,8 +273,7 @@ map <Leader>K <Plug>(easymotion-eol-k)
 "Airline
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 
-"Maximazer
-nnoremap <C-W>m :MaximizerToggle<CR>
+
 nnoremap <leader>d<space> :call vimspector#Continue()<CR>
 
 "Closetab
@@ -384,3 +382,8 @@ autocmd User EasyMotionPromptBegin silent! CocDisable
 autocmd User EasyMotionPromptEnd silent! CocEnable
 
 
+function! AirlineInit()
+     let g:airline_section_c = '%f'
+    let g:airline_section_z = airline#section#create('%#__accent_bold#%{zoom#statusline()}%3l%#__restore__#/%L :%3v')
+endfunction
+autocmd User AirlineAfterInit call AirlineInit()
