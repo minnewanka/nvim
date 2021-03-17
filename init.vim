@@ -166,24 +166,24 @@ let g:fern#renderer = "devicons"
 noremap <silent> <Leader>f :Fern . -drawer -reveal=%  -width=35<CR><C-w>=
 
 function! FernInit() abort
-  nmap <buffer><expr>
-        \ <Plug>(fern-my-open-expand-collapse)
-        \ fern#smart#leaf(
-        \   "\<Plug>(fern-action-open:select)",
-        \   "\<Plug>(fern-action-expand)",
-        \   "\<Plug>(fern-action-collapse)",
-        \ )
-  nmap <buffer> <CR> <Plug>(fern-my-open-expand-collapse)
- nmap <buffer> <2-LeftMouse> <Plug>(fern-my-open-expand-collapse)
-  nmap <buffer> n <Plug>(fern-action-new-path)
-  nmap <buffer> d <Plug>(fern-action-remove)
-  nmap <buffer> m <Plug>(fern-action-move)
-  nmap <buffer> M <Plug>(fern-action-rename)
-  nmap <buffer> r <Plug>(fern-action-reload)
-  nmap <buffer> b <Plug>(fern-action-open:split)
-  nmap <buffer> v <Plug>(fern-action-open:vsplit)
-  nmap <buffer><nowait> < <Plug>(fern-action-leave)
-  nmap <buffer><nowait> > <Plug> (fern-action-enter)
+    nmap <buffer><expr>
+                \ <Plug>(fern-my-open-expand-collapse)
+                \ fern#smart#leaf(
+                \   "\<Plug>(fern-action-open:select)",
+                \   "\<Plug>(fern-action-expand)",
+                \   "\<Plug>(fern-action-collapse)",
+                \ )
+    nmap <buffer> <CR> <Plug>(fern-my-open-expand-collapse)
+    nmap <buffer> <2-LeftMouse> <Plug>(fern-my-open-expand-collapse)
+    nmap <buffer> n <Plug>(fern-action-new-path)
+    nmap <buffer> d <Plug>(fern-action-remove)
+    nmap <buffer> m <Plug>(fern-action-move)
+    nmap <buffer> M <Plug>(fern-action-rename)
+    nmap <buffer> r <Plug>(fern-action-reload)
+    nmap <buffer> b <Plug>(fern-action-open:split)
+    nmap <buffer> v <Plug>(fern-action-open:vsplit)
+    nmap <buffer><nowait> < <Plug>(fern-action-leave)
+    nmap <buffer><nowait> > <Plug> (fern-action-enter)
 endfunction
 
 augroup FernGroup
@@ -216,8 +216,6 @@ let g:coc_global_extensions = [
 
 nnoremap <silent> <leader>b :Telescope buffers<CR>
 nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
-nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<CR>
-nnoremap <leader>gb  :<C-u>CocList buffers<CR>
 nnoremap <leader>ac  :CocAction<CR>
 nnoremap <leader>cr :CocRestart<CR>
 nnoremap <silent> gh :call <SID>show_documentation()<CR>
@@ -261,10 +259,6 @@ let g:closetag_filenames = '*.html,*.js,*.tsx,*.jsx'
 
 "TagAlong
 let g:tagalong_additional_filetypes = ['javascript']
-
-"MultiSelect
-let g:VM_show_warnings = 0
-
 
 "Bar bar
 let bufferline = get(g:, 'bufferline', {})
@@ -348,19 +342,3 @@ augroup highlight_yank
     au TextYankPost * silent! lua vim.highlight.on_yank{higroup="YankHighlight", timeout=700}
 augroup END
 
-function! HighlightFSearches(cmd)
-  " Get extra character for the command.
-  let char = nr2char(getchar())
-
-  if char ==# ''
-    " Skip special keys: arrows, backspace...
-    return ''
-  endif
-
-  " Highlight 'char' on the current line.
-  let match_str = 'match Visual "\%' . line('.') . 'l' . char . '"'
-  execute match_str
-
-  " Finally, execute the original command with char appended to it
-  return a:cmd.char
-endfunction
