@@ -4,15 +4,13 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
-Plug 'mbbill/undotree'
 Plug 'sheerun/vim-polyglot'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-Plug 'gruvbox-community/gruvbox'
 Plug 'sainnhe/gruvbox-material'
-Plug 'vim-airline/vim-airline'
-Plug 'easymotion/vim-easymotion'
+Plug 'itchyny/lightline.vim'
+Plug 'justinmk/vim-sneak'
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-renderer-devicons.vim'
 Plug 'airblade/vim-gitgutter'
@@ -20,24 +18,18 @@ Plug 'kana/vim-textobj-indent'
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-line'
-Plug 'mattn/emmet-vim'
 Plug 'ryanoasis/vim-devicons'
-Plug 'puremourning/vimspector'
- Plug 'szw/vim-maximizer'
 Plug 'dhruvasagar/vim-zoom'
 Plug 'jiangmiao/auto-pairs'
 Plug 'alvan/vim-closetag'
 Plug 'AndrewRadev/tagalong.vim'
-Plug 'norcalli/nvim-colorizer.lua'
-Plug 'mhinz/vim-startify'
-Plug 'MattesGroeger/vim-bookmarks'
-Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-Plug 'bagrat/vim-buffet'
+Plug 'romgrk/barbar.nvim'
 Plug 'christoomey/vim-tmux-navigator'
 
 call plug#end()
 
-"""""j"""""" BASIC SETTINGS """"""""""
+""""""""""" BASIC SETTINGS """"""""""
+set mouse=a
 let mapleader = " "
 syntax on
 set ruler
@@ -53,6 +45,7 @@ set smarttab
 set autoindent
 set smartindent
 set number
+set relativenumber
 set nowrap
 set smartcase
 set ignorecase
@@ -60,24 +53,20 @@ set noswapfile
 set nobackup
 set undodir=~/.vim/undodir
 set undofile
-set incsearch
 set termguicolors
 set noshowmode
 set updatetime=50
 set shortmess+=c
 set splitbelow
 set splitright
-highlight! CursorLine ctermbg=0 guibg=grey
-
+set encoding=UTF-8
 
 """"""""""" BASIC MAPPING """"""""""
 
 nnoremap <leader>q :q<cr>
 nnoremap <leader>z :wq<cr>
 nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
-nnoremap <leader>u :UndotreeShow<CR>
 nnoremap Q <Nop>
-nnoremap <leadej>pw :Rg <C-R>=expand("<cword>")<CR><CR>
 nnoremap <leader>phw :h <C-R>=expand("<cword>")<CR><CR>
 noremap K 5k
 noremap J 5j
@@ -89,7 +78,6 @@ nmap <leader>g; :diffget //3<CR>
 nmap <leader>gj :diffget //2<CR>
 imap jk <Esc>
 imap kj <Esc>
-imap jj <Esc>
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
@@ -101,10 +89,6 @@ vnoremap < <gv
 vnoremap > >gv
 inoremap <expr> <c-j> ("\<C-n>")
 inoremap <expr> <c-k> ("\<C-p>")
-nnoremap <silent> <A-j>    :resize -5<CR>
-nnoremap <silent> <A-k>  :resize +5<CR>
-nnoremap <silent> <A-h>  :vertical resize -5<CR>
-nnoremap <silent> <A-l> :vertical resize +5<CR>
 nnoremap <C-t>n :tabnew %<CR>
 nnoremap <C-t>o :tabonly<CR>
 nnoremap <C-t>q :tabclose<CR>
@@ -112,6 +96,10 @@ nnoremap <C-t>bo :Bonly<CR>
 nnoremap <C-t>bq :Bw<CR>
 nmap <C-U> <C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y>
 nmap <C-D> <C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E>
+noremap <Left>  :bp<CR>
+noremap <Right> :bn<CR>
+noremap <Leader><Tab> gt
+noremap hl :set hlsearch! hlsearch?<CR>
 
 """"""""""" THEME """"""""""
 if has('termguicolors')
@@ -119,33 +107,30 @@ if has('termguicolors')
 endif
 let g:gruvbox_material_background = 'hard'
 colorscheme gruvbox-material
+highlight Comment cterm=italic gui=italic
 set background=dark
 let g:gruvbox_material_visual = 'blue background'
 let g:gruvbox_material_enable_bold = 1
 let g:gruvbox_material_enable_italic = 1
-" let g:gruvbox_material_menu_selection_background = 'grey'
 let g:gruvbox_invert_selection='0'
 
+""""""""""" Highlights """"""""""
+hi BufferCurrent guifg=#282828 guibg=#b8bb26
+hi BufferCurrentIndex guifg=#282828 guibg=#b8bb26
+hi BufferCurrentSign guifg=#282828 guibg=#b8bb26
+hi bufferVisible guifg=#000000 guibg=#458588
+hi bufferVisibleIndex guifg=#000000 guibg=#458588
+hi bufferVisibleSign guifg=#000000 guibg=#458588
+hi BufferInactiveIndex guifg=#ebdbb2
 
-function! g:BuffetSetCustomColors()
-  hi! BuffetTab  guibg=#fe8019
-  hi! BuffetCurrentBuffer guifg=#282828 guibg=#8ec079
-  hi! BuffetActiveBuffer guifg=#000000 guibg=#458588
-  hi! BuffetBuffer guifg=#a89984 guibg=#282828
-endfunction
+highlight Search  guifg=#282828 guibg=#fabd2f
+highlight! SneakLabelMask guibg=#282828 guifg=#282828
+highlight! link SneakScope DiffText
+highlight! link SneakLabel Search
+highlight! link Sneak Search
 
-augroup FugitiveCustom
-    autocmd BufReadPost fugitive://* set bufhidden=delete
-augroup END
+highlight YankHighlight  guifg=#ebdbb2 guibg=#b16286
 
-
-
-
-luafile $HOME/.config/nvim/lua/plug-colorizer.lua
-
-if executable('rg')
-    let g:rg_derive_root='true'
-endif
 
 """"""""""" Plugin  """"""""""
 
@@ -160,6 +145,10 @@ augroup my-fern-hijack
   autocmd BufEnter * ++nested call s:hijack_directory()
 augroup END
 
+augroup FugitiveCustom
+    autocmd BufReadPost fugitive://* set bufhidden=delete
+augroup END
+
 function! s:hijack_directory() abort
   let path = expand('%:p')
   if !isdirectory(path)
@@ -171,7 +160,7 @@ endfunction
 
 " Custom settings and mappings.
 let g:fern#disable_default_mappings = 1
-
+let g:fern#default_hidden= 1
 let g:fern#renderer = "devicons"
 
 noremap <silent> <Leader>f :Fern . -drawer -reveal=%  -width=35<CR><C-w>=
@@ -202,8 +191,6 @@ augroup FernGroup
   autocmd FileType fern call FernInit()
 augroup END
 
-
-
 " CoC
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -214,6 +201,8 @@ function! s:show_documentation()
     execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
+
+map <leader>s :CocSearch <Space>
 
 let g:coc_snippet_next = '<tab>'
 let g:coc_global_extensions = [
@@ -232,7 +221,6 @@ nnoremap <leader>gb  :<C-u>CocList buffers<CR>
 nnoremap <leader>ac  :CocAction<CR>
 nnoremap <leader>cr :CocRestart<CR>
 nnoremap <silent> gh :call <SID>show_documentation()<CR>
-inoremap <silent><expr> <C-space> coc#refresh()
 nmap gd <Plug>(coc-definition)
 nmap gy <Plug>(coc-type-definition)
 nmap gi <Plug>(coc-implementation)
@@ -240,8 +228,6 @@ nmap gr <Plug>(coc-references)
 nmap <leader>rr <Plug>(coc-rename)
 nmap <leader>g[ <Plug>(coc-diagnostic-prev)
 nmap <leader>g] <Plug>(coc-diagnostic-next)
-nmap <F3> :ToggleGStatus<CR>
-
 
 "GitGutter
 nmap ghp <Plug>(GitGutterPreviewHunk)
@@ -252,29 +238,23 @@ nmap ghp <Plug>(GitGutterPreviewHunk)
 nmap gn <Plug>(GitGutterNextHunk)
 nmap gp <Plug>(GitGutterPrevHunk)
 
+"Sneak
+let g:sneak#label = 1
+let g:sneak#use_ic_scs = 1
 
-"Easy motion
-let g:EasyMotion_smartcase = 1
-let g:easymotion#is_active = 0
-hi link EasyMotionTarget yellow
-hi link EasyMotionIncSearch red
-nmap s <Plug>(easymotion-overwin-f2)
-map  / <Plug>(easymotion-sn)
-omap / <Plug>(easymotion-tn)
-map  n <Plug>(easymotion-next)
-map  N <Plug>(easymotion-prev)
-nmap f <Plug>(easymotion-bd-fl)
-nmap t <Plug>(easymotion-bd-tl)
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
-map <Leader>J <Plug>(easymotion-eol-j)
-map <Leader>K <Plug>(easymotion-eol-k)
-
-"Airline
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-
-
-nnoremap <leader>d<space> :call vimspector#Continue()<CR>
+"LightLine
+let g:lightline = {
+      \ 'enable': { 'tabline': 0 },
+      \ 'colorscheme': 'gruvbox-material',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'readonly', 'filename', 'modified', 'zoom' ] ]
+      \ },
+      \ 'component_function': {
+      \   'filename': 'LightlineFilename',
+      \    'zoom': 'zoom#statusline',
+      \ },
+      \ }
 
 "Closetab
 let g:closetag_filenames = '*.html,*.js,*.tsx,*.jsx'
@@ -285,46 +265,24 @@ let g:tagalong_additional_filetypes = ['javascript']
 "MultiSelect
 let g:VM_show_warnings = 0
 
-"Startify
-map <leader>s :CocSearch <Space>
-let g:startify_custom_header = [
-        \ '   _  __     _      ',
-        \ '  / |/ /  __(_)_ _  ',
-        \ ' /    / |/ / /  ` \ ',
-        \ '/_/|_/|___/_/_/_/_/ ',
-        \]
-let g:startify_lists = [
-          \ { 'type': 'dir',       'header': ['   Current Directory '. getcwd()] },
-          \ { 'type': 'sessions',  'header': ['   Sessions']       },
-          \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
-          \ { 'type': 'files',     'header': ['   Files']            },
-          \ ]
-let g:startify_bookmarks = [
-            \ { 'i': '~/.config/nvim/init.vim' },
-            \ { 'z': '~/.zshrc' }]
 
+"Bar bar
+let bufferline = get(g:, 'bufferline', {})
+let bufferline.animation = v:false
+let bufferline.icons = 'numbers'
+let bufferline.icon_separator_active = ''
+let bufferline.icon_separator_inactive = ''
+let bufferline.maximum_padding = 2
 
-
-"Vimspector
-let g:vimspector_enable_mappings = 'HUMAN'
-nnoremap <leader>dd :call vimspector#Launch()<CR>
-nmap <leader>db <Plug>VimspectorToggleBreakpoint
-
-
-"Vim Buffet
-noremap <Left>  :bp<CR>
-noremap <Right> :bn<CR>
-noremap <Leader><Tab> gt
-noremap <C-b>o :Bonly<CR>
-let g:buffet_tab_icon = "\uf00a"
-let g:buffet_left_trunc_icon = "\uf0a8"
-let g:buffet_right_trunc_icon = "\uf0a9"
-let g:buffet_show_index=1
-nmap <leader>1 <Plug>BuffetSwitch(1)
-nmap <leader>2 <Plug>BuffetSwitch(2)
-nmap <leader>3 <Plug>BuffetSwitch(3)
-nmap <leader>4 <Plug>BuffetSwitch(4)
-nmap <leader>5 <!-- <Plug> -->BuffetSwitch(5)
+nmap <leader>1 :BufferGoto 1<CR>
+nmap <leader>2 :BufferGoto 2<CR>
+nmap <leader>3 :BufferGoto 3<CR>
+nmap <leader>4 :BufferGoto 4<CR>
+nmap <leader>5 :BufferGoto 5<CR>
+nmap <leader>6 :BufferGoto 6<CR>
+nmap <leader>7 :BufferGoto 7<CR>
+nmap <leader>8 :BufferGoto 8<CR>
+nmap <leader>9 :BufferGoto 9<CR>
 
 
 """""""""" COMMAND """"""""""
@@ -353,10 +311,8 @@ augroup focus
     autocmd FocusLost,BufLeave * silent! wa
 augroup END
 
-" kill-all but visible buffers
 nnoremap <silent> <M-BS> :call Delete_buffers()<CR>:echo "Non-windowed buffers are deleted"<CR>
 
-"" Delete all(saved) but visible buffers
 func! Delete_buffers()
     let l:buffers = filter(getbufinfo(), {_, v -> v.hidden})
     if !empty(l:buffers)
@@ -364,26 +320,47 @@ func! Delete_buffers()
     endif
 endfunc
 
-
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<!-- <TAB> -->" :
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
 let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" command! -nargs=0 Prettier :CocCommand prettier.formatFile
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
 command! -nargs=0 Syntaxreact set syntax=typescriptreact
-autocmd User EasyMotionPromptBegin silent! CocDisable
-autocmd User EasyMotionPromptEnd silent! CocEnable
 
-
-function! AirlineInit()
-     let g:airline_section_c = '%f'
-    let g:airline_section_z = airline#section#create('%#__accent_bold#%{zoom#statusline()}%3l%#__restore__#/%L :%3v')
+function! LightlineFilename()
+  let root = fnamemodify(get(b:, 'git_dir'), ':h')
+  let path = expand('%:p')
+  if path[:len(root)-1] ==# root
+    return path[len(root)+1:]
+  endif
+  return expand('%')
 endfunction
-autocmd User AirlineAfterInit call AirlineInit()
+
+augroup highlight_yank
+    autocmd!
+    au TextYankPost * silent! lua vim.highlight.on_yank{higroup="YankHighlight", timeout=700}
+augroup END
+
+function! HighlightFSearches(cmd)
+  " Get extra character for the command.
+  let char = nr2char(getchar())
+
+  if char ==# ''
+    " Skip special keys: arrows, backspace...
+    return ''
+  endif
+
+  " Highlight 'char' on the current line.
+  let match_str = 'match Visual "\%' . line('.') . 'l' . char . '"'
+  execute match_str
+
+  " Finally, execute the original command with char appended to it
+  return a:cmd.char
+endfunction
