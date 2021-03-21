@@ -297,7 +297,6 @@ function! ToggleGStatus()
     endif
 endfunction
 command ToggleGStatus :call ToggleGStatus()
-nmap <F3> :ToggleGStatus<CR>
 
 augroup focus
     autocmd!
@@ -340,4 +339,8 @@ augroup highlight_yank
     autocmd!
     au TextYankPost * silent! lua vim.highlight.on_yank{higroup="YankHighlight", timeout=700}
 augroup END
+
+autocmd User targets#mappings#user call targets#mappings#extend({
+            \ 'a': {'argument': [{'o': '[{([]', 'c': '[])}]', 's': ','}]},
+            \ })
 
