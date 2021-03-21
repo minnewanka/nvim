@@ -14,17 +14,13 @@ Plug 'justinmk/vim-sneak'
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-renderer-devicons.vim'
 Plug 'airblade/vim-gitgutter'
-Plug 'kana/vim-textobj-indent'
-Plug 'kana/vim-textobj-user'
-Plug 'kana/vim-textobj-entire'
-Plug 'kana/vim-textobj-line'
-Plug 'ryanoasis/vim-devicons'
 Plug 'dhruvasagar/vim-zoom'
 Plug 'jiangmiao/auto-pairs'
 Plug 'alvan/vim-closetag'
 Plug 'AndrewRadev/tagalong.vim'
 Plug 'romgrk/barbar.nvim'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'wellle/targets.vim'
 
 call plug#end()
 
@@ -100,6 +96,7 @@ noremap <Left>  :bp<CR>
 noremap <Right> :bn<CR>
 noremap <Leader><Tab> gt
 noremap hl :set hlsearch! hlsearch?<CR>
+nnoremap <leader>j :join<CR>
 
 """"""""""" THEME """"""""""
 if has('termguicolors')
@@ -226,6 +223,8 @@ nmap gr <Plug>(coc-references)
 nmap <leader>rr <Plug>(coc-rename)
 nmap <leader>g[ <Plug>(coc-diagnostic-prev)
 nmap <leader>g] <Plug>(coc-diagnostic-next)
+xnoremap il 0wo$h
+onoremap il :normal vil<CR>
 
 "GitGutter
 nmap ghp <Plug>(GitGutterPreviewHunk)
