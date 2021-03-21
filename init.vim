@@ -340,7 +340,8 @@ augroup highlight_yank
     au TextYankPost * silent! lua vim.highlight.on_yank{higroup="YankHighlight", timeout=700}
 augroup END
 
+" Targets
 autocmd User targets#mappings#user call targets#mappings#extend({
             \ 'a': {'argument': [{'o': '[{([]', 'c': '[])}]', 's': ','}]},
             \ })
-
+let g:targets_nl = 'nN'
