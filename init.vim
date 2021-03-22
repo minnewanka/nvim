@@ -13,8 +13,10 @@ Plug 'junegunn/fzf.vim'
 Plug 'sainnhe/gruvbox-material'
 Plug 'itchyny/lightline.vim'
 Plug 'justinmk/vim-sneak'
+"Fern
 Plug 'lambdalisue/fern.vim'
-Plug 'lambdalisue/fern-renderer-devicons.vim'
+Plug 'lambdalisue/nerdfont.vim'
+Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'dhruvasagar/vim-zoom'
 Plug 'jiangmiao/auto-pairs'
@@ -22,7 +24,12 @@ Plug 'alvan/vim-closetag'
 Plug 'AndrewRadev/tagalong.vim'
 Plug 'romgrk/barbar.nvim'
 Plug 'christoomey/vim-tmux-navigator'
+"Text Objects
 Plug 'wellle/targets.vim'
+Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-entire'
+Plug 'kana/vim-textobj-line'
+Plug 'kana/vim-textobj-indent'
 
 call plug#end()
 
@@ -162,7 +169,7 @@ endfunction
 " Custom settings and mappings.
 let g:fern#disable_default_mappings = 1
 let g:fern#default_hidden= 1
-let g:fern#renderer = "devicons"
+let g:fern#renderer = "nerdfont"
 
 noremap <silent> <Leader>f :Fern . -drawer -reveal=%  -width=35<CR><C-w>=
 
@@ -227,8 +234,6 @@ nmap gr <Plug>(coc-references)
 nmap <leader>rr <Plug>(coc-rename)
 nmap <leader>g[ <Plug>(coc-diagnostic-prev)
 nmap <leader>g] <Plug>(coc-diagnostic-next)
-xnoremap il 0wo$h
-onoremap il :normal vil<CR>
 
 "GitGutter
 nmap ghp <Plug>(GitGutterPreviewHunk)
@@ -246,7 +251,6 @@ let g:sneak#use_ic_scs = 1
 "LightLine
 let g:lightline = {
       \ 'enable': { 'tabline': 0 },
-      \ 'colorscheme': 'gruvbox-material',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'readonly', 'filename', 'modified', 'zoom' ] ]
