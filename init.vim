@@ -8,6 +8,8 @@ Plug 'sheerun/vim-polyglot'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'sainnhe/gruvbox-material'
 Plug 'itchyny/lightline.vim'
 Plug 'justinmk/vim-sneak'
@@ -90,8 +92,6 @@ nnoremap <C-t>o :tabonly<CR>
 nnoremap <C-t>q :tabclose<CR>
 nnoremap <C-t>bo :Bonly<CR>
 nnoremap <C-t>bq :Bw<CR>
-nmap <C-U> <C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y>
-nmap <C-D> <C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E>
 noremap <Left>  :bp<CR>
 noremap <Right> :bn<CR>
 noremap <Leader><Tab> gt
@@ -130,6 +130,10 @@ highlight YankHighlight  guifg=#ebdbb2 guibg=#b16286
 
 
 """"""""""" Plugin  """"""""""
+
+if executable('rg')
+    let g:rg_derive_root='true'
+endif
 
 " Disable netrw.
 let g:loaded_netrw  = 1
