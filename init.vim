@@ -4,16 +4,14 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
-Plug 'sheerun/vim-polyglot'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'sainnhe/gruvbox-material'
 Plug 'itchyny/lightline.vim'
 Plug 'justinmk/vim-sneak'
-"Fern
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/nerdfont.vim'
 Plug 'lambdalisue/fern-renderer-nerdfont.vim'
@@ -24,7 +22,6 @@ Plug 'alvan/vim-closetag'
 Plug 'AndrewRadev/tagalong.vim'
 Plug 'romgrk/barbar.nvim'
 Plug 'christoomey/vim-tmux-navigator'
-"Text Objects
 Plug 'wellle/targets.vim'
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-entire'
@@ -222,7 +219,10 @@ let g:coc_global_extensions = [
       \'coc-css',
       \]
 
-nnoremap <silent> <leader>b :Telescope buffers<CR>
+nnoremap <silent> <leader>b :lua require('telescope.builtin').buffers()<CR>
+nnoremap <leader>gb :lua require('telescope.builtin').git_branches()<CR>
+
+
 nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
 nnoremap <leader>ac  :CocAction<CR>
 nnoremap <leader>cr :CocRestart<CR>
@@ -284,6 +284,10 @@ nmap <leader>6 :BufferGoto 6<CR>
 nmap <leader>7 :BufferGoto 7<CR>
 nmap <leader>8 :BufferGoto 8<CR>
 nmap <leader>9 :BufferGoto 9<CR>
+
+"Lua
+lua require("config")
+lua require'nvim-treesitter.configs'.setup { highlight = { enable = true } }
 
 
 """""""""" COMMAND """"""""""
