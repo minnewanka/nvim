@@ -24,9 +24,9 @@ Plug 'romgrk/barbar.nvim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'wellle/targets.vim'
 Plug 'kana/vim-textobj-user'
-Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-indent'
+Plug 'kyazdani42/nvim-web-devicons'
 
 call plug#end()
 
@@ -131,6 +131,9 @@ highlight! link SneakLabel Search
 highlight! link Sneak Search
 
 highlight YankHighlight  guifg=#ebdbb2 guibg=#b16286
+
+highlight TelescopeSelection      guifg=#D79921 gui=bold " selected item
+highlight TelescopeSelectionCaret guifg=#CC241D " selection caret
 
 
 """"""""""" Plugin  """"""""""
