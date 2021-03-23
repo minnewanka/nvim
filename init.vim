@@ -116,13 +116,15 @@ let g:gruvbox_material_enable_italic = 1
 let g:gruvbox_invert_selection='0'
 
 """"""""""" Highlights """"""""""
-hi BufferCurrent guifg=#282828 guibg=#b8bb26
-hi BufferCurrentIndex guifg=#282828 guibg=#b8bb26
-hi BufferCurrentSign guifg=#282828 guibg=#b8bb26
-hi bufferVisible guifg=#000000 guibg=#458588
-hi bufferVisibleIndex guifg=#000000 guibg=#458588
-hi bufferVisibleSign guifg=#000000 guibg=#458588
-hi BufferInactiveIndex guifg=#ebdbb2
+hi BufferCurrent  guifg=#b8bb26
+hi BufferCurrentIndex guifg=#b8bb26
+hi BufferCurrentSign guifg=#b8bb26
+hi bufferVisible guifg=#458588
+hi bufferVisibleIndex guifg=#458588
+hi bufferVisibleSign guifg=#458588
+hi BufferInactive guifg=#928374
+hi BufferInactiveIndex guifg=#928374
+hi BufferInactiveSign guifg=#a89984
 
 highlight Search  guifg=#282828 guibg=#fabd2f
 highlight! SneakLabelMask guibg=#282828 guifg=#282828
@@ -134,6 +136,7 @@ highlight YankHighlight  guifg=#ebdbb2 guibg=#b16286
 
 highlight TelescopeSelection      guifg=#D79921 gui=bold " selected item
 highlight TelescopeSelectionCaret guifg=#CC241D " selection caret
+highlight TelescopeMatching       guifg=#458588
 
 
 """"""""""" Plugin  """"""""""
@@ -359,4 +362,3 @@ augroup END
 autocmd User targets#mappings#user call targets#mappings#extend({
             \ 'a': {'argument': [{'o': '[{([]', 'c': '[])}]', 's': ','}]},
             \ })
-let g:targets_nl = 'nN'
