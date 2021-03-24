@@ -106,7 +106,8 @@ nnoremap <leader>j :join<CR>
 if has('termguicolors')
     set termguicolors
 endif
-let g:gruvbox_material_background = 'hard'
+let g:gruvbox_material_background = 'soft'
+let g:gruvbox_material_palette='mix'
 colorscheme gruvbox-material
 highlight Comment cterm=italic gui=italic
 set background=dark
@@ -117,13 +118,15 @@ let g:gruvbox_invert_selection='0'
 
 """"""""""" Highlights """"""""""
 
-hi BufferCurrent guifg=#282828 guibg=#b8bb26
-hi BufferCurrentIndex guifg=#282828 guibg=#b8bb26
-hi BufferCurrentSign guifg=#282828 guibg=#b8bb26
-hi bufferVisible guifg=#000000 guibg=#458588
-hi bufferVisibleIndex guifg=#000000 guibg=#458588
-hi bufferVisibleSign guifg=#000000 guibg=#458588
+hi BufferCurrent  guifg=#b8bb26
+hi BufferCurrentIndex guifg=#b8bb26
+hi BufferCurrentSign guifg=#b8bb26
+hi bufferVisible guifg=#458588
+hi bufferVisibleIndex guifg=#458588
+hi bufferVisibleSign guifg=#458588
+hi BufferInactive guifg=#ebdbb2
 hi BufferInactiveIndex guifg=#ebdbb2
+hi BufferInactiveSign guifg=#ebdbb2
 
 highlight Search  guifg=#282828 guibg=#fabd2f
 highlight! SneakLabelMask guibg=#282828 guifg=#282828
