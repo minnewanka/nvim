@@ -18,8 +18,7 @@ Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'dhruvasagar/vim-zoom'
 Plug 'jiangmiao/auto-pairs'
-Plug 'alvan/vim-closetag'
-Plug 'AndrewRadev/tagalong.vim'
+Plug 'windwp/nvim-ts-autotag'
 Plug 'romgrk/barbar.nvim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'kana/vim-textobj-user'
@@ -27,6 +26,7 @@ Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-indent'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'wellle/targets.vim'
+Plug 'dyng/ctrlsf.vim'
 
 call plug#end()
 
@@ -137,6 +137,8 @@ highlight TelescopeSelection      guifg=#D79921 gui=bold " selected item
 highlight TelescopeSelectionCaret guifg=#CC241D " selection caret
 highlight TelescopeMatching       guifg=#458588
 
+highlight ctrlsfMatch guifg=#282828 guibg=#8ec07c
+
 """"""""""" Plugin  """"""""""
 
 if executable('rg')
@@ -211,7 +213,7 @@ function! s:show_documentation()
   endif
 endfunction
 
-map <leader>s :CocSearch <Space>
+map <leader>s <Plug>CtrlSFPrompt
 
 let g:coc_snippet_next = '<tab>'
 let g:coc_global_extensions = [
@@ -280,8 +282,7 @@ nmap <leader>9 :BufferGoto 9<CR>
 
 "Lua
 lua require("config")
-lua require'nvim-treesitter.configs'.setup { highlight = { enable = true } }
-
+lua require'nvim-treesitter.configs'.setup { highlight = { enable = true },  autotag = { enable = true, } }
 
 """""""""" COMMAND """"""""""
 autocmd BufWinEnter * set  formatoptions-=cro
