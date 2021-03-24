@@ -15,18 +15,18 @@ Plug 'justinmk/vim-sneak'
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/nerdfont.vim'
 Plug 'lambdalisue/fern-renderer-nerdfont.vim'
-Plug 'airblade/vim-gitgutter'
+Plug 'lewis6991/gitsigns.nvim'
 Plug 'dhruvasagar/vim-zoom'
 Plug 'jiangmiao/auto-pairs'
 Plug 'alvan/vim-closetag'
 Plug 'AndrewRadev/tagalong.vim'
 Plug 'romgrk/barbar.nvim'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'wellle/targets.vim'
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-indent'
 Plug 'kyazdani42/nvim-web-devicons'
+Plug 'wellle/targets.vim'
 
 call plug#end()
 
@@ -116,15 +116,14 @@ let g:gruvbox_material_enable_italic = 1
 let g:gruvbox_invert_selection='0'
 
 """"""""""" Highlights """"""""""
-hi BufferCurrent  guifg=#b8bb26
-hi BufferCurrentIndex guifg=#b8bb26
-hi BufferCurrentSign guifg=#b8bb26
-hi bufferVisible guifg=#458588
-hi bufferVisibleIndex guifg=#458588
-hi bufferVisibleSign guifg=#458588
-hi BufferInactive guifg=#928374
-hi BufferInactiveIndex guifg=#928374
-hi BufferInactiveSign guifg=#a89984
+
+hi BufferCurrent guifg=#282828 guibg=#b8bb26
+hi BufferCurrentIndex guifg=#282828 guibg=#b8bb26
+hi BufferCurrentSign guifg=#282828 guibg=#b8bb26
+hi bufferVisible guifg=#000000 guibg=#458588
+hi bufferVisibleIndex guifg=#000000 guibg=#458588
+hi bufferVisibleSign guifg=#000000 guibg=#458588
+hi BufferInactiveIndex guifg=#ebdbb2
 
 highlight Search  guifg=#282828 guibg=#fabd2f
 highlight! SneakLabelMask guibg=#282828 guifg=#282828
@@ -137,7 +136,6 @@ highlight YankHighlight  guifg=#ebdbb2 guibg=#b16286
 highlight TelescopeSelection      guifg=#D79921 gui=bold " selected item
 highlight TelescopeSelectionCaret guifg=#CC241D " selection caret
 highlight TelescopeMatching       guifg=#458588
-
 
 """"""""""" Plugin  """"""""""
 
@@ -227,8 +225,6 @@ let g:coc_global_extensions = [
 
 nnoremap <silent> <leader>b :lua require('telescope.builtin').buffers()<CR>
 nnoremap <leader>gb :lua require('telescope.builtin').git_branches()<CR>
-
-
 nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
 nnoremap <leader>ac  :CocAction<CR>
 nnoremap <leader>cr :CocRestart<CR>
@@ -240,15 +236,6 @@ nmap gr <Plug>(coc-references)
 nmap <leader>rr <Plug>(coc-rename)
 nmap <leader>g[ <Plug>(coc-diagnostic-prev)
 nmap <leader>g] <Plug>(coc-diagnostic-next)
-
-"GitGutter
-nmap ghp <Plug>(GitGutterPreviewHunk)
-nmap ghu <Plug>(GitGutterUndoHunk)
-nmap ghs <Plug>(GitGutterStageHunk)
-xmap ghs <Plug>(GitGutterStageHunk)
-nmap ghp <Plug>(GitGutterPreviewHunk)
-nmap gn <Plug>(GitGutterNextHunk)
-nmap gp <Plug>(GitGutterPrevHunk)
 
 "Sneak
 let g:sneak#label = 1
@@ -358,7 +345,3 @@ augroup highlight_yank
     au TextYankPost * silent! lua vim.highlight.on_yank{higroup="YankHighlight", timeout=700}
 augroup END
 
-" Targets
-autocmd User targets#mappings#user call targets#mappings#extend({
-            \ 'a': {'argument': [{'o': '[{([]', 'c': '[])}]', 's': ','}]},
-            \ })
