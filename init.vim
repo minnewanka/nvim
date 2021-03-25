@@ -1,6 +1,8 @@
 call plug#begin('~/.vim/plugged')
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neovim/nvim-lspconfig'
+Plug 'glepnir/lspsaga.nvim'
+Plug 'hrsh7th/nvim-compe'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
@@ -29,6 +31,7 @@ Plug 'wellle/targets.vim'
 Plug 'dyng/ctrlsf.vim'
 
 call plug#end()
+
 
 """"""""""" BASIC SETTINGS """"""""""
 set mouse=a
@@ -70,8 +73,8 @@ nnoremap <leader>z :wq<cr>
 nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
 nnoremap Q <Nop>
 nnoremap <leader>phw :h <C-R>=expand("<cword>")<CR><CR>
-noremap K 5k
-noremap J 5j
+" noremap K 5k
+" noremap J 5j
 inoremap <C-j> <C-n>
 inoremap <C-k> <C-p>
 nnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
@@ -102,6 +105,8 @@ noremap <Leader><Tab> gt
 noremap hl :set hlsearch! hlsearch?<CR>
 nnoremap <leader>j :join<CR>
 
+
+
 """"""""""" THEME """"""""""
 if has('termguicolors')
     set termguicolors
@@ -115,6 +120,9 @@ let g:gruvbox_material_visual = 'blue background'
 let g:gruvbox_material_enable_bold = 1
 let g:gruvbox_material_enable_italic = 1
 let g:gruvbox_invert_selection='0'
+
+luafile $HOME/.config/nvim/lua/init.lua
+lua require'nvim-treesitter.configs'.setup { highlight = { enable = true },  autotag = { enable = true, } }
 
 """"""""""" Highlights """"""""""
 
@@ -136,11 +144,22 @@ highlight! link Sneak Search
 
 highlight YankHighlight  guifg=#ebdbb2 guibg=#b16286
 
-highlight TelescopeSelection      guifg=#D79921 gui=bold " selected item
-highlight TelescopeSelectionCaret guifg=#CC241D " selection caret
+highlight TelescopeSelection      guifg=#D79921 gui=bold
+highlight TelescopeSelectionCaret guifg=#CC241D
 highlight TelescopeMatching       guifg=#458588
 
-highlight ctrlsfMatch guifg=#282828 guibg=#8ec07c
+" highlight ctrlsfMatch guifg=#282828 guibg=#8ec07c
+highlight link ctrlsfMatch Search
+
+highlight! link LspDiagnosticsDefaultError Red
+highlight! link LspDiagnosticsDefaultHint Blue
+
+hi link GitSignsAddNr Red
+hi link GitSignsChangeNr Red
+hi link GitSignsDeleteNr Red
+
+"Lua
+
 
 """"""""""" Plugin  """"""""""
 
@@ -177,7 +196,7 @@ let g:fern#disable_default_mappings = 1
 let g:fern#default_hidden= 1
 let g:fern#renderer = "nerdfont"
 
-noremap <silent> <Leader>f :Fern . -drawer -reveal=%  -width=35<CR><C-w>=
+" noremap <silent> <Leader>f :Fern . -drawer -reveal=%  -width=35<CR><C-w>=
 
 function! FernInit() abort
     nmap <buffer><expr>
@@ -205,42 +224,24 @@ augroup FernGroup
   autocmd FileType fern call FernInit()
 augroup END
 
-" CoC
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
-  else
-    execute '!' . &keywordprg . " " . expand('<cword>')
-  endif
-endfunction
-
 map <leader>s <Plug>CtrlSFPrompt
-
-let g:coc_snippet_next = '<tab>'
-let g:coc_global_extensions = [
-      \'coc-tsserver',
-      \'coc-eslint',
-      \'coc-prettier',
-      \'coc-json',
-      \'coc-styled-components',
-      \'coc-css',
-      \]
 
 nnoremap <silent> <leader>b :lua require('telescope.builtin').buffers()<CR>
 nnoremap <leader>gb :lua require('telescope.builtin').git_branches()<CR>
-nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
-nnoremap <leader>ac  :CocAction<CR>
-nnoremap <leader>cr :CocRestart<CR>
-nnoremap <silent> gh :call <SID>show_documentation()<CR>
-nmap gd <Plug>(coc-definition)
-nmap gy <Plug>(coc-type-definition)
-nmap gi <Plug>(coc-implementation)
-nmap gr <Plug>(coc-references)
-nmap <leader>rr <Plug>(coc-rename)
-nmap <leader>g[ <Plug>(coc-diagnostic-prev)
-nmap <leader>g] <Plug>(coc-diagnostic-next)
+
+nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> gs <cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>
+nnoremap <silent> gD <cmd>lua require'lspsaga.provider'.preview_definition()<CR>
+nnoremap <silent> K <cmd>lua require('lspsaga.hover').render_hover_doc()<CR>
+nnoremap <silent> gr <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
+nnoremap <silent> <Leader>ca <cmd>lua require('lspsaga.codeaction').code_action()<CR>
+nnoremap <silent> <Leader>rr <cmd>lua require('lspsaga.rename').rename()<CR>
+nnoremap <silent> [g <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>
+nnoremap <silent> ]g <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>
+" Compe
+" inoremap <silent><expr> <TAB>     compe#complete()
+inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+
 
 "Sneak
 let g:sneak#label = 1
@@ -249,6 +250,7 @@ let g:sneak#use_ic_scs = 1
 "LightLine
 let g:lightline = {
       \ 'enable': { 'tabline': 0 },
+      \ 'colorscheme': 'gruvbox_material',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'readonly', 'filename', 'modified', 'zoom' ] ]
@@ -283,9 +285,6 @@ nmap <leader>7 :BufferGoto 7<CR>
 nmap <leader>8 :BufferGoto 8<CR>
 nmap <leader>9 :BufferGoto 9<CR>
 
-"Lua
-lua require("config")
-lua require'nvim-treesitter.configs'.setup { highlight = { enable = true },  autotag = { enable = true, } }
 
 """""""""" COMMAND """"""""""
 autocmd BufWinEnter * set  formatoptions-=cro
@@ -321,18 +320,11 @@ func! Delete_buffers()
     endif
 endfunc
 
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
 function! s:check_back_space() abort
 let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
 command! -nargs=0 Syntaxreact set syntax=typescriptreact
 
 function! LightlineFilename()
@@ -348,4 +340,8 @@ augroup highlight_yank
     autocmd!
     au TextYankPost * silent! lua vim.highlight.on_yank{higroup="YankHighlight", timeout=700}
 augroup END
+
+
+" autocmd BufWritePre *.tsx lua vim.lsp.buf.formatting_sync(nil, 100)
+nnoremap <silent> <leader>f    <cmd>lua vim.lsp.buf.formatting()<CR>
 
