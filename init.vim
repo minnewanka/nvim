@@ -30,6 +30,7 @@ Plug 'kyazdani42/nvim-web-devicons'
 Plug 'wellle/targets.vim'
 Plug 'dyng/ctrlsf.vim'
 
+
 call plug#end()
 
 
@@ -73,8 +74,6 @@ nnoremap <leader>z :wq<cr>
 nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
 nnoremap Q <Nop>
 nnoremap <leader>phw :h <C-R>=expand("<cword>")<CR><CR>
-" noremap K 5k
-" noremap J 5j
 inoremap <C-j> <C-n>
 inoremap <C-k> <C-p>
 nnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
@@ -122,33 +121,27 @@ let g:gruvbox_material_enable_italic = 1
 let g:gruvbox_invert_selection='0'
 
 luafile $HOME/.config/nvim/lua/init.lua
-lua require'nvim-treesitter.configs'.setup { highlight = { enable = true },  autotag = { enable = true, } }
+lua require'nvim-treesitter.configs'.setup { highlight = { enable = true },  autotag = { enable = true } }
 
 """"""""""" Highlights """"""""""
 
-hi BufferCurrent  guifg=#b8bb26
-hi BufferCurrentIndex guifg=#b8bb26
-hi BufferCurrentSign guifg=#b8bb26
-hi bufferVisible guifg=#458588
-hi bufferVisibleIndex guifg=#458588
-hi bufferVisibleSign guifg=#458588
-hi BufferInactive guifg=#ebdbb2
-hi BufferInactiveIndex guifg=#ebdbb2
-hi BufferInactiveSign guifg=#ebdbb2
+ hi link BufferCurrentIndex Green
+ hi link BufferCurrentSign Green
+ hi link bufferVisible Fg
+ hi link bufferVisibleIndex Blue
+ hi link bufferVisibleSign Blue
 
 highlight Search  guifg=#282828 guibg=#fabd2f
-highlight! SneakLabelMask guibg=#282828 guifg=#282828
-highlight! link SneakScope DiffText
 highlight! link SneakLabel Search
 highlight! link Sneak Search
+highlight! link SneakLabelMask Bg
 
-highlight YankHighlight  guifg=#ebdbb2 guibg=#b16286
+highlight link YankHighlight Blue
 
-highlight TelescopeSelection      guifg=#D79921 gui=bold
-highlight TelescopeSelectionCaret guifg=#CC241D
-highlight TelescopeMatching       guifg=#458588
+highlight link TelescopeSelection Yellow
+highlight link TelescopeSelectionCaret Red
+highlight link TelescopeMatching Blue
 
-" highlight ctrlsfMatch guifg=#282828 guibg=#8ec07c
 highlight link ctrlsfMatch Search
 
 highlight! link LspDiagnosticsDefaultError Red
@@ -157,8 +150,6 @@ highlight! link LspDiagnosticsDefaultHint Blue
 hi link GitSignsAddNr Red
 hi link GitSignsChangeNr Red
 hi link GitSignsDeleteNr Red
-
-"Lua
 
 
 """"""""""" Plugin  """"""""""
@@ -196,8 +187,6 @@ let g:fern#disable_default_mappings = 1
 let g:fern#default_hidden= 1
 let g:fern#renderer = "nerdfont"
 
-" noremap <silent> <Leader>f :Fern . -drawer -reveal=%  -width=35<CR><C-w>=
-
 function! FernInit() abort
     nmap <buffer><expr>
                 \ <Plug>(fern-my-open-expand-collapse)
@@ -233,14 +222,18 @@ nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> gs <cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>
 nnoremap <silent> gD <cmd>lua require'lspsaga.provider'.preview_definition()<CR>
 nnoremap <silent> K <cmd>lua require('lspsaga.hover').render_hover_doc()<CR>
-nnoremap <silent> gr <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
+nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
+" nnoremap <silent> ge <cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>
+" nnoremap <silent> gr <cmd>lua require("telescope.builtin").lsp_references()<CR>
+ nnoremap <silent> gr <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
 nnoremap <silent> <Leader>ca <cmd>lua require('lspsaga.codeaction').code_action()<CR>
 nnoremap <silent> <Leader>rr <cmd>lua require('lspsaga.rename').rename()<CR>
 nnoremap <silent> [g <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>
 nnoremap <silent> ]g <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>
+
 " Compe
 " inoremap <silent><expr> <TAB>     compe#complete()
-inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+inoremap <silent><expr> <TAB> pumvisible() ? compe#confirm() : "\<TAB>"
 
 
 "Sneak
@@ -261,16 +254,12 @@ let g:lightline = {
       \ },
       \ }
 
-"Closetab
-let g:closetag_filenames = '*.html,*.js,*.tsx,*.jsx'
-
-"TagAlong
-let g:tagalong_additional_filetypes = ['javascript']
 
 "Bar bar
 let bufferline = get(g:, 'bufferline', {})
 let bufferline.animation = v:false
-let bufferline.icons = 'numbers'
+let bufferline.icons = 'both'
+let bufferline.icon_custom_colors = v:true
 let bufferline.icon_separator_active = ''
 let bufferline.icon_separator_inactive = ''
 let bufferline.maximum_padding = 2
@@ -311,14 +300,24 @@ augroup focus
     autocmd FocusLost,BufLeave * silent! wa
 augroup END
 
-nnoremap <silent> <M-BS> :call Delete_buffers()<CR>:echo "Non-windowed buffers are deleted"<CR>
+nnoremap <silent> <M-BS> :call DeleteInactiveBufs()<CR>:echo "Non-windowed buffers are deleted"<CR>
 
-func! Delete_buffers()
-    let l:buffers = filter(getbufinfo(), {_, v -> v.hidden})
-    if !empty(l:buffers)
-        execute 'bwipeout' join(map(l:buffers, {_, v -> v.bufnr}))
-    endif
-endfunc
+function! DeleteInactiveBufs()
+    let tablist = []
+    for i in range(tabpagenr('$'))
+        call extend(tablist, tabpagebuflist(i + 1))
+    endfor
+
+    let nWipeouts = 0
+    for i in range(1, bufnr('$'))
+        if bufexists(i) && !getbufvar(i,"&mod") && index(tablist, i) == -1
+            silent exec 'bwipeout' i
+            let nWipeouts = nWipeouts + 1
+        endif
+    endfor
+    echomsg nWipeouts . ' buffer(s) wiped out'
+endfunction
+
 
 function! s:check_back_space() abort
 let col = col('.') - 1
@@ -342,6 +341,5 @@ augroup highlight_yank
 augroup END
 
 
-" autocmd BufWritePre *.tsx lua vim.lsp.buf.formatting_sync(nil, 100)
 nnoremap <silent> <leader>f    <cmd>lua vim.lsp.buf.formatting()<CR>
 
